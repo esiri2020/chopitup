@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://chopitup-production.up.railway.app"; // Backend hosted on Railway
+const API_BASE_URL = "http://chopitup-production.up.railway.app"; // Backend hosted on Railway
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
