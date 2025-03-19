@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fetch and display all contestants
     async function loadContestants() {
         try {
-            const response = await fetch("http://localhost:5000/contestants", {
+            const response = await fetch("https://chopitup-production.up.railway.app/contestants", {
                 headers: { "Authorization": token },
             });
 
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Delete Contestant
     async function deleteContestant(contestantId) {
         try {
-            await fetch(`http://localhost:5000/contestants/${contestantId}`, {
+            await fetch(`https://chopitup-production.up.railway.app/contestants/${contestantId}`, {
                 method: "DELETE",
                 headers: { "Authorization": token },
             });
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fetch and display leaderboard
     async function loadLeaderboard() {
         try {
-            const response = await fetch("http://localhost:5000/leaderboard", {
+            const response = await fetch("https://chopitup-production.up.railway.app/leaderboard", {
                 headers: { "Authorization": token },
             });
 
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fetch and display judge-specific scores
     async function loadJudgeScores() {
         try {
-            const response = await fetch("http://localhost:5000/judge-scores", {
+            const response = await fetch("https://chopitup-production.up.railway.app/judge-scores", {
                 headers: { "Authorization": token },
             });
 
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const name = document.getElementById("contestantName").value;
         try {
-            await fetch("http://localhost:5000/contestants", {
+            await fetch("https://chopitup-production.up.railway.app/contestants", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fetch and populate contestant list
     async function loadContestants() {
         try {
-            const response = await fetch("http://localhost:5000/contestants", {
+            const response = await fetch("https://chopitup-production.up.railway.app/contestants", {
                 headers: { "Authorization": token },
             });
 
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fetch and display leaderboard
     async function loadLeaderboard() {
         try {
-            const response = await fetch("http://localhost:5000/leaderboard", {
+            const response = await fetch("https://chopitup-production.up.railway.app/leaderboard", {
                 headers: { "Authorization": token },
             });
 
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/scores", {
+            const response = await fetch("https://chopitup-production.up.railway.app/scores", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
