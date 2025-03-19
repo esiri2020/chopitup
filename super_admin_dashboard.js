@@ -67,17 +67,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 headers: { "Authorization": token },
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to fetch leaderboard");
-            }
-
             const leaderboard = await response.json();
-
-            if (!Array.isArray(leaderboard)) {
-                throw new Error("Invalid leaderboard data format");
-            }
-
             leaderboardBody.innerHTML = "";
+
             leaderboard.forEach((entry, index) => {
                 const row = `<tr><td>${index + 1}</td><td>${entry.name}</td><td>${entry.avg_score}%</td></tr>`;
                 leaderboardBody.innerHTML += row;
@@ -98,6 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             judgeScoresBody.innerHTML = "";
 
             judgeScores.forEach((entry) => {
+                const totalScore = entry.score ?? 0; // Fix for undefined scores
                 const row = `
                     <tr>
                         <td>${entry.judge}</td>
@@ -105,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         <td>${entry.taste}</td>
                         <td>${entry.creativity}</td>
                         <td>${entry.presentation}</td>
-                        <td>${entry.score}%</td>
+                        <td>${totalScore}%</td>
                     </tr>
                 `;
                 judgeScoresBody.innerHTML += row;
@@ -137,8 +130,34 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
+    document.getElementById("resetScores").addEventListener("click", async function () {
+        if (!confirm("Are you sure you want to reset all judges' votes? This will also reset the leaderboard.")) {
+            return;
+        }
+    
+        try {
+            const response = await fetch("http://localhost:5000/reset-scores", {
+                method: "DELETE",
+                headers: { "Authorization": token },
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                alert("All votes and leaderboard scores have been reset!");
+                loadLeaderboard(); // Refresh leaderboard
+                loadJudgeScores(); // Refresh judge-specific scores
+            } else {
+                alert(result.message || "Error resetting votes.");
+            }
+        } catch (error) {
+            console.error("Error resetting scores:", error);
+        }
+    });
+    
+
     // Load all data on page load
-    await loadContestants();
-    await loadLeaderboard();
-    await loadJudgeScores();
+    loadContestants();
+    loadLeaderboard();
+    loadJudgeScores();
 });

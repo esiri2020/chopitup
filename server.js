@@ -249,6 +249,24 @@ app.get("/judge-scores", authenticateToken, async (req, res) => {
     }
 });
 
+// Delete All Judges' Votes (Super Admin Only)
+app.delete("/reset-scores", authenticateToken, async (req, res) => {
+    if (req.user.role !== "super_admin") {
+        return res.status(403).json({ message: "Access denied" });
+    }
+
+    try {
+        await pool.query("DELETE FROM scores"); // Removes all votes
+
+        res.json({ message: "All judges' votes have been deleted. Contestants can be voted for again." });
+    } catch (error) {
+        console.error("Error resetting scores:", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+});
+
+
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
