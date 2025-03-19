@@ -8,6 +8,21 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
+const allowedOrigins = ["https://chopitup.vercel.app"];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true
+}));
+
+app.use(express.json());
+
 // PostgreSQL Connection (SSL Disabled Completely)
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL + "?sslmode=disable" // Disables SSL
@@ -124,6 +139,7 @@ app.post("/scores", authenticateToken, async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 });
+
 
 
 // Submit Score (Judges Only)
